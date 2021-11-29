@@ -1,8 +1,28 @@
 version: "3.9"
+
 services:
+
   account-service:
     build: .
     environment:
-      SPRING_PROFILES_ACTIVE: local
+      SPRING_PROFILES_ACTIVE: docker
     ports:
       - "8080:8080"
+    networks:
+      - vksviit-network
+    depends_on:
+      - account-db
+  account-db:
+    image: mysql:8
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: accounts
+      MYSQL_USER: account_user
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3506:3306"
+    networks:
+      - vksviit-network
+networks:
+  vksviit-network: null
