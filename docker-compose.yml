@@ -12,6 +12,16 @@ services:
       - vksviit-network
     depends_on:
       - account-db
+      - config-server
+
+  config-server:
+    image: ../awesome-bank-config-server
+    environment:
+      SPRING_PROFILES_ACTIVE: native
+    ports:
+      - "8084:8084"
+    networks:
+      - vksviit-network
   account-db:
     image: mysql:8
     restart: unless-stopped
